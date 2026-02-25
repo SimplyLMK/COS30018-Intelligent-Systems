@@ -1,0 +1,14 @@
+Experiment,Group,MAE ($),RMSE ($),MAPE (%),R²,Time (s)
+Exp1-LSTM-2x50,1-CellType,3.54,4.03,3.33,0.7921,29.8
+Exp1-GRU-2x50,1-CellType,1.5,1.82,1.43,0.9577,32.4
+Exp1-SimpleRNN-2x50,1-CellType,6.68,6.98,6.35,0.3739,16.7
+Exp2-Shallow-1L,2-Depth,1.1,1.38,1.06,0.9756,16.4
+Exp2-Medium-2L,2-Depth,3.54,4.03,3.33,0.7921,28.1
+Exp2-Deep-3L,2-Depth,2.18,2.76,2.04,0.9022,39.0
+Exp3-Narrow-25u,3-Width,3.82,4.49,3.56,0.7408,25.9
+Exp3-Medium-50u,3-Width,3.54,4.03,3.33,0.7921,28.3
+Exp3-Wide-100u,3-Width,2.26,2.74,2.12,0.9033,35.9
+Exp4-A-e25b32,4-HyperParams,3.54,4.03,3.33,0.7921,28.6
+Exp4-B-e50b32,4-HyperParams,1.48,1.89,1.39,0.9541,51.2
+Exp4-C-e25b16,4-HyperParams,1.78,2.23,1.66,0.9359,40.8
+Exp4-D-e50b64,4-HyperParams,3.59,4.15,3.36,0.7785,37.3
