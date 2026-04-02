@@ -75,91 +75,52 @@ RESULTS_CSV_PATH = "experiment_results_v07.csv"
 # SECTION 1: STOCK DATA LOADING
 #==============================================================================
 
-# def load_stock_data(ticker, start_date, end_date):
-#     """
-#     Load stock price data from Yahoo Finance.
+def load_stock_data(ticker, start_date, end_date):
+    """
+    Load stock price data from Yahoo Finance.
 
-#     Unlike v06's load_data() which creates windowed sequences for DL models,
-#     this function returns a simple DataFrame with daily OHLCV data. The
-#     classification pipeline handles feature engineering separately.
+    Unlike v06's load_data() which creates windowed sequences for DL models,
+    this function returns a simple DataFrame with daily OHLCV data. The
+    classification pipeline handles feature engineering separately.
 
-#     Parameters:
-#         ticker: str, stock ticker symbol (e.g., "CBA.AX")
-#         start_date: str, "YYYY-MM-DD"
-#         end_date: str, "YYYY-MM-DD"
+    Parameters:
+        ticker: str, stock ticker symbol (e.g., "CBA.AX")
+        start_date: str, "YYYY-MM-DD"
+        end_date: str, "YYYY-MM-DD"
 
-#     Returns:
-#         pd.DataFrame with columns: open, high, low, close, adjclose, volume
-#         Index: DatetimeIndex named 'date'
-#     """
-#     print(f"Downloading stock data for {ticker}...")
-#     df = yf.download(ticker, start=start_date, end=end_date,
-#                      progress=False, auto_adjust=False)
+    Returns:
+        pd.DataFrame with columns: open, high, low, close, adjclose, volume
+        Index: DatetimeIndex named 'date'
+    """
+    print(f"Downloading stock data for {ticker}...")
+    df = yf.download(ticker, start=start_date, end=end_date,
+                     progress=False, auto_adjust=False)
 
-#     if isinstance(df.columns, pd.MultiIndex):
-#         df.columns = df.columns.get_level_values(0)
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
 
-#     # Normalise column names
-#     col_map = {}
-#     for col in df.columns:
-#         col_map[col] = str(col).lower().replace(' ', '')
-#     df.rename(columns=col_map, inplace=True)
+    # Normalise column names
+    col_map = {}
+    for col in df.columns:
+        col_map[col] = str(col).lower().replace(' ', '')
+    df.rename(columns=col_map, inplace=True)
 
-#     if 'adjclose' not in df.columns and 'close' in df.columns:
-#         df['adjclose'] = df['close']
+    if 'adjclose' not in df.columns and 'close' in df.columns:
+        df['adjclose'] = df['close']
 
-#     df.index.name = 'date'
+    df.index.name = 'date'
 
-#     # Handle NaN
-#     nan_count = df.isna().sum().sum()
-#     if nan_count > 0:
-#         print(f"  Warning: {nan_count} NaN values found, forward-filling")
-#         df.fillna(method='ffill', inplace=True)
-#         df.fillna(method='bfill', inplace=True)
+    # Handle NaN
+    nan_count = df.isna().sum().sum()
+    if nan_count > 0:
+        print(f"  Warning: {nan_count} NaN values found, forward-filling")
+        df.fillna(method='ffill', inplace=True)
+        df.fillna(method='bfill', inplace=True)
 
-#     print(f"  Loaded {len(df)} trading days: "
-#           f"{df.index[0].strftime('%Y-%m-%d')} to {df.index[-1].strftime('%Y-%m-%d')}")
-#     return df
-def load_stock_data(company, start_date, end_date):
-    print(f"Loading offline stock data for {company}...")
-    
-    # Update this path if your CSV is in a different folder!
-    file_path = "CBA.AX_2020-01-01_2024-07-01.csv" 
-    
-    try:
-        # Load the CSV, setting the lowercase 'date' column as the index
-        df = pd.read_csv(file_path, index_col='date', parse_dates=True)
-        
-        # Rename columns to perfectly match standard yfinance output
-        df = df.rename(columns={
-            'adjclose': 'Adj Close',
-            'close': 'Close',
-            'high': 'High',
-            'low': 'Low',
-            'open': 'Open',
-            'volume': 'Volume'
-        })
-        
-        # Capitalize the index name as well
-        df.index.name = 'Date'
-        
-        # Sort index and filter by your date config
-        df = df.sort_index()
-        df = df.loc[start_date:end_date]
-        
-    except FileNotFoundError:
-        print(f"Error: Could not find the offline data file at {file_path}")
-        return None
-    except Exception as e:
-        print(f"Error loading offline data: {e}")
-        return None
-
-    if not df.empty:
-        print(f"Successfully loaded data from {df.index[0].strftime('%Y-%m-%d')} to {df.index[-1].strftime('%Y-%m-%d')}")
-    else:
-        print("Warning: The dataframe is empty after filtering by dates.")
-        
+    print(f"  Loaded {len(df)} trading days: "
+          f"{df.index[0].strftime('%Y-%m-%d')} to {df.index[-1].strftime('%Y-%m-%d')}")
     return df
+
 
 #==============================================================================
 # SECTION 2: NEWS DATA COLLECTION
