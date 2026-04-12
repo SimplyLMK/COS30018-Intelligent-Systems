@@ -1,0 +1,11 @@
+Features,N_Features,MAE ($),RMSE ($),MAPE (%),R²,Time (s),Group,Steps,Architecture
+Univariate (adjclose),1.0,1.83,2.31,1.72,0.9317,32.0,1-Features,,
+Bivariate (adjclose+volume),2.0,2.06,2.58,1.93,0.9144,31.7,1-Features,,
+Full multivariate,5.0,3.54,4.03,3.33,0.7921,31.6,1-Features,,
+,,3.54,4.03,3.33,0.7921,31.8,2-Multistep,1.0,
+,,4.26,4.98,3.99,0.6788,31.8,2-Multistep,3.0,
+,,3.7,4.36,3.46,0.7514,31.8,2-Multistep,5.0,
+,,4.57,5.31,4.28,0.6264,32.2,2-Multistep,7.0,
+,,3.7,4.36,3.46,0.7514,31.4,3-Combined,,LSTM 2x50
+,,3.59,4.16,3.38,0.7739,40.0,3-Combined,,LSTM 2x100
+,,2.3,2.75,2.19,0.9012,36.7,3-Combined,,GRU 2x50
